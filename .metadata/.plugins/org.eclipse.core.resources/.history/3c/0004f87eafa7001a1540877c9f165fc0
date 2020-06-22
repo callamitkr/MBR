@@ -1,0 +1,92 @@
+package com.capgemini.mbrt.controller;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.capgemini.mbrt.exception.ReportFoundException;
+import com.capgemini.mbrt.exception.ReportNotFoundException;
+import com.capgemini.mbrt.model.Report;
+import com.capgemini.mbrt.service.ReportService;
+
+
+@RestController
+@RequestMapping("/mbrt")
+public class ReportController {
+	private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
+
+	@Autowired
+	ReportService reportService;
+
+	@GetMapping("/getReportsByMonthYear/{month}/{year}")
+	public List<Report> getReportsByMonthYear(@PathVariable("month") int month, @PathVariable("year") int year) {
+		logger.info("Inside getReportsByMonthYear year Controller");
+		return reportService.getReportsByMonthYear(month, year);
+	}
+
+	@PostMapping("/createReport")
+	public ResponseEntity<String> creatreReport(@Validated @RequestBody Report newReport) throws ReportFoundException {
+		logger.info("Inside createReport Controller");
+		Optional<Report> existingReport = reportService.findReportOfCurrentMonthByCreatedBy(newReport.getCreatedBy());
+		if (existingReport.isPresent())
+			throw new ReportFoundException("You have already created report for Current month");
+		logger.info("Report found : {}", existingReport);
+		Report createdReport = reportService.createReport(newReport);
+		 URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                 .path("createReport")
+                 .buildAndExpand(createdReport.getReportId())
+                 .toUri();
+		return ResponseEntity.created(location).build();
+				//("Report created Successfully").;
+	}
+
+	@PutMapping("/updateReport")
+	public ResponseEntity<Report> updateReport(@Validated @RequestBody Report report)
+			throws ReportNotFoundException, ReportFoundException {
+		logger.info("Inside updateReport Controller");
+		Optional<Report> existingReport = reportService.findReportOfCurrentMonthByCreatedBy(report.getCreatedBy());
+		if (existingReport.isPresent()) {
+			report.setReportId(existingReport.get().getReportId());
+			report.setCreatedDate(existingReport.get().getCreatedDate());
+		} else {
+			throw new ReportNotFoundException("You have not created report for current month");
+		}
+		reportService.updateReport(report);
+		return ResponseEntity.ok(report);
+	}
+
+	/*
+	 * @PutMapping("/updateReportByUserId/{userId}") public ResponseEntity <Report>
+	 * updateReportByUserId(@PathVariable(value = "userId") String
+	 * reportId, @Validated @RequestBody Report report) throws
+	 * ReportNotFoundException {
+	 * logger.info("Inside updateReportByUserId Controller"); Report oldreport =
+	 * reportService.findReortById(reportId).orElseThrow(() -> new
+	 * ReportNotFoundException("Report id is not valid : "+reportId));
+	 * report.setReportId(reportId); reportService.updateReport(report); return
+	 * ResponseEntity.ok(report); }
+	 */
+
+	@GetMapping("/getReport/{userId}")
+	public ResponseEntity<Report> getReportByUserId(@PathVariable(value = "userId") String userId)
+			throws ReportNotFoundException, ReportFoundException {
+		logger.info("Inside getReportByUserId Controller");
+		Report report = reportService.findReportOfCurrentMonthByCreatedBy(userId)
+				.orElseThrow(() -> new ReportNotFoundException("You have not created report for current month"));
+		return ResponseEntity.ok().body(report);
+	}
+}

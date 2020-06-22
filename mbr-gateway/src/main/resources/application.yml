@@ -1,0 +1,18 @@
+spring:
+ application:
+  name: mbr-gateway
+
+server:
+ port: 8001
+
+eureka:
+ client:
+  serviceUrl:
+   defaultZone: http://localhost:8761/eureka/
+              
+zuul:
+  routes:
+    mbrt_service:
+      path: /report/**
+      serviceId: mbr-service
+      

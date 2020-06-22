@@ -1,0 +1,22 @@
+package com.teast;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class ConcurrentHashMapTest {
+
+	public static void main(String[] args) {
+
+		List<String> abc = Arrays.asList("coko","okoc","anangr","anargn") ;
+		
+		String str1 = abc.get(0);
+		String str2 =abc.get(1);
+		
+		Arrays.sort(str1.toCharArray());
+		
+		System.out.println(str1);
+		//System.out.println(Arrays.sort(str2.toCharArray()));
+
+	}
+
+}
