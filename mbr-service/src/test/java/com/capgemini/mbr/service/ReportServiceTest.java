@@ -22,7 +22,7 @@ import com.capgemini.mbr.repository.ReportRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class TestReportService {
+public class ReportServiceTest {
 
 	@InjectMocks
 	ReportSeviceImpl reportService;
@@ -31,21 +31,23 @@ public class TestReportService {
 	ReportRepository repository;
 
 	@Test
-	public void getReportsByMonthYearTest() {
+	public void getReportsByCurrentMonthYearTest() {
 		List<Report> reportList = new ArrayList<>();
+		int month = LocalDate.now().getMonthValue();
+		int year = LocalDate.now().getYear();
 		Report report1 = new Report(123L, "Card control1", "card control desc1", "barclays1", "Bhavesh", "phase1",
 				"succesfully deliverd", "report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
 		Report report2 = new Report(124L, "Card control2", "card control desc2", "barclays2", "Bhavesh", "phase1",
-				"succesfully deliverd", "report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
+				"succesfully deliverd", "report generation", "good", "no", "amit",  LocalDate.now(), LocalDate.now());
 		Report report3 = new Report(125L, "Card control3", "card control desc3", "barclays3", "Bhavesh", "phase1",
 				"succesfully deliverd", "report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
 		reportList.add(report1);
 		reportList.add(report2);
 		reportList.add(report3);
-		when(repository.getReportsByMonthYear(04, 2020)).thenReturn(reportList);
-		List<Report> rlist = reportService.getReportsByMonthYear(04, 2020);
+		when(repository.getReportsByCurrentMonthYear(month, year)).thenReturn(reportList);
+		List<Report> rlist = reportService.getReportsByCurrentMonthYear();
 		assertEquals(3, rlist.size());
-		verify(repository, times(1)).getReportsByMonthYear(04, 2020);
+		verify(repository, times(1)).getReportsByCurrentMonthYear(month, year);
 
 	}
 
@@ -55,10 +57,10 @@ public class TestReportService {
 				"barclays1", "Bhavesh", "phase1", "succesfully deliverd", "report generation", "good", "no", "akuma397",
 				LocalDate.now(), LocalDate.now()));
 
-		when(repository.findReportOfCurrentMonthByCreatedBy("akum397")).thenReturn(report);
-		Optional<Report> report1 = reportService.findReportOfCurrentMonthByCreatedBy("akum397");
+		when(repository.findReportOfCurrentMonthByuser("akum397")).thenReturn(report);
+		Optional<Report> report1 = reportService.findReportOfCurrentMonthByuser("akum397");
 		assertEquals(true, report1.isPresent());
-		verify(repository, times(1)).findReportOfCurrentMonthByCreatedBy("akum397");
+		verify(repository, times(1)).findReportOfCurrentMonthByuser("akum397");
 	}
 	
 	@Test

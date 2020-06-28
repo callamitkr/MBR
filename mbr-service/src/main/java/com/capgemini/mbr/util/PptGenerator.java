@@ -14,19 +14,7 @@ import org.apache.poi.sl.usermodel.ShapeType;
 import org.apache.poi.sl.usermodel.TextParagraph.TextAlign;
 import org.apache.poi.sl.usermodel.TextShape.TextAutofit;
 import org.apache.poi.util.IOUtils;
-import org.apache.poi.xslf.usermodel.SlideLayout;
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFAutoShape;
-import org.apache.poi.xslf.usermodel.XSLFPictureData;
-import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
-import org.apache.poi.xslf.usermodel.XSLFSlideMaster;
-import org.apache.poi.xslf.usermodel.XSLFTable;
-import org.apache.poi.xslf.usermodel.XSLFTableCell;
-import org.apache.poi.xslf.usermodel.XSLFTableRow;
-import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
-import org.apache.poi.xslf.usermodel.XSLFTextRun;
-import org.apache.poi.xslf.usermodel.XSLFTextShape;
+import org.apache.poi.xslf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -37,49 +25,51 @@ import com.capgemini.mbr.model.Report;
 
 
 
-@Configuration
-@PropertySource("classpath:application.properties")
-public class PptGenerator {
-	@Autowired
-	DateUtil dateUtil;
-	@Value("${report.main.title}")
-	private  String mainReportTitle;
-	@Value("${report.name}")
-	private  String reportName;
-	@Value("${report.name.font}")
-	private  String reportNameFont;
-	@Value("${report.table.title}")
-	private  String reportTableTitle;
-	@Value("${column.programName}")
-	private  String programName;
-	@Value("${column.projectDescription}")
-	private  String projectDescription;
-	@Value("${column.barclaysPm}")
-	private  String barclaysPm;
-	@Value("${column.bu}")
-	private  String bu;
-	@Value("${column.phase}")
-	private  String phase;
-	@Value("${column.keyMilestone}")
-	private  String keyMilestone;
-	@Value("${column.KeyHighlights}")
-	private  String KeyHighlights;
-	@Value("${column.barclaysFeedback}")
-	private  String barclaysFeedback;
-	@Value("${column.issue}")
-	private  String issue;
-	@Value("${title.head.font}")
-	private  String titleHeadFont;
-	@Value("${table.font}")
-	private  String tableFont;
-	@Value("${table.title.font.size}")
-	private  Double tableTitleFontSize;
-	@Value("${title.font.size}")
-	private  Double titleFontSize;
-	@Value("${report.name.font.size}")
-	private  Double reportNameFontSize;
-	@Value("${table.font.size}")
-	private  Double tableFontSize;
+
+	@Configuration
+	@PropertySource("classpath:messages.properties")
+	public class PptGenerator {
+
+		@Value("${report.main.title}")
+		private  String mainReportTitle;
+		@Value("${report.name}")
+		private  String reportName;
+		@Value("${report.name.font}")
+		private  String reportNameFont;
+		@Value("${report.table.title}")
+		private  String reportTableTitle;
+		@Value("${column.programName}")
+		private  String programName;
+		@Value("${column.projectDescription}")
+		private  String projectDescription;
+		@Value("${column.barclaysPm}")
+		private  String barclaysPm;
+		@Value("${column.bu}")
+		private  String bu;
+		@Value("${column.phase}")
+		private  String phase;
+		@Value("${column.keyMilestone}")
+		private  String keyMilestone;
+		@Value("${column.KeyHighlights}")
+		private  String KeyHighlights;
+		@Value("${column.barclaysFeedback}")
+		private  String barclaysFeedback;
+		@Value("${column.issue}")
+		private  String issue;
+		@Value("${title.head.font}")
+		private  String titleHeadFont;
+		@Value("${table.font}")
+		private  String tableFont;
+		@Value("${table.title.font.size}")
+		private  Double tableTitleFontSize;
+		@Value("${title.font.size}")
+		private  Double titleFontSize;
+		@Value("${report.name.font.size}")
+		private  Double reportNameFontSize;
+		@Value("${table.font.size}")
+		private  Double tableFontSize;
+		@Autowired
+		private DateUtil dateUtil;
 
 	public  ByteArrayInputStream ReportToPpt(List<Report> reportList) throws IOException {
 
@@ -130,7 +120,7 @@ public class PptGenerator {
 			slide1Title2.clearText();
 		    textRunTitle2 = slide1Title2.addNewTextParagraph().addNewTextRun();
 			textRunTitle2.setFontSize(reportNameFontSize);
-			textRunTitle2.setText(reportName+" - "+ dateUtil.getCurrentMontYear());
+			textRunTitle2.setText(reportName+" - "+ dateUtil.getCurrentMontYear("MMM yyyy"));
 			textRunTitle2.setFontFamily(reportNameFont);
 			textRunTitle2.setFontColor(Color.BLUE);
 

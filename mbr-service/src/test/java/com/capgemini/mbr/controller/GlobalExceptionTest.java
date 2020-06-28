@@ -1,6 +1,7 @@
 package com.capgemini.mbr.controller;
 
 import com.capgemini.mbr.exception.GlobalExceptionHandler;
+import com.capgemini.mbr.exception.ReportDataNotFoundException;
 import com.capgemini.mbr.exception.ReportFoundException;
 import com.capgemini.mbr.exception.ReportNotFoundException;
 import org.junit.Test;
@@ -18,11 +19,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GlobalExceptionTest {
     @InjectMocks
     GlobalExceptionHandler globalExceptionHandler;
+
+    @Test
+    public void ReportDataNotFoundExceptionTest(){
+        ReportDataNotFoundException reportDataNotFoundException = new ReportDataNotFoundException("Report not found");
+        GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
+        assertThat(globalExceptionHandler.handleResourceNotFoundException(reportDataNotFoundException).getStatusCodeValue()).isEqualTo(404);
+
+    }
+
     @Test
     public void reportNotFoundExceptionTest() throws Exception {
-        ReportNotFoundException rp = new ReportNotFoundException("Report not found");
-        GlobalExceptionHandler gg = new GlobalExceptionHandler();
-        assertThat(gg.handleResourceNotFoundException(rp).getStatusCodeValue()).isEqualTo(404);
+        ReportNotFoundException reportNotFoundExceptionp = new ReportNotFoundException("Report not found");
+        GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
+        assertThat(globalExceptionHandler.handleResourceNotFoundException(reportNotFoundExceptionp).getStatusCodeValue()).isEqualTo(404);
       }
     @Test
     public void reportFoundExceptionTest() throws Exception {
@@ -49,4 +59,6 @@ public class GlobalExceptionTest {
         Exception execption = new Exception("All Error");
         assertThat(globalExceptionHandler.handleAllException(execption).getStatusCodeValue()).isEqualTo(500);
     }
+
+
 }

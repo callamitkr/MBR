@@ -2,12 +2,9 @@ package com.capgemini.mbr.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -17,7 +14,6 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,22 +31,26 @@ import com.capgemini.mbr.service.ReportService;
 import com.capgemini.mbr.util.DateUtil;
 import com.capgemini.mbr.util.PptGenerator;
 
-
 @RestController
 @RequestMapping("/mbr")
 public class ReportController {
 	private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
 
 	@Autowired
-	ReportService reportService;
+	private ReportService reportService;
 	@Autowired
-	PptGenerator pptGenerator;
+	private PptGenerator pptGenerator;
 	@Autowired
-	DateUtil dateUtil;
+	private DateUtil dateUtil;
+	private DateTimeFormatter formatter;
+	private String  monthYear;
+	private  List<Report> listOfReport;
+	private ByteArrayInputStream byteArrayInputStream;
+	private HttpHeaders headers;
 
 
 	@PostMapping("/reports")
-	public ResponseEntity<Response> creatreReport(@Valid @RequestBody Report newReport) throws ReportFoundException {
+	public ResponseEntity<Response> creatReport(@Valid @RequestBody Report newReport) throws ReportFoundException {
 	//	logger.info("Inside createReport Controller");
 		Optional<Report> existingReport = reportService.findReportOfCurrentMonthByuser(newReport.getCreatedBy());
 		if (existingReport.isPresent()) {
@@ -63,7 +63,7 @@ public class ReportController {
 	}
 
 	@PutMapping("/updateReport")
-	public ResponseEntity<Response> updateReport(@Validated @RequestBody Report report)
+	public ResponseEntity<Response> updateReport(@Valid @RequestBody Report report)
 			throws ReportNotFoundException, ReportFoundException {
 	//	logger.info("Inside updateReport Controller");
 		Optional<Report> existingReport = reportService.findReportOfCurrentMonthByuser(report.getCreatedBy());
@@ -74,7 +74,7 @@ public class ReportController {
 			throw new ReportNotFoundException("You have not created report for current month");
 		}
 		reportService.updateReport(report);
-		return new ResponseEntity<>(new Response("Report Created",HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(new Response("Report Updated",HttpStatus.ACCEPTED),HttpStatus.ACCEPTED);
 
 	}
 
@@ -89,19 +89,18 @@ public class ReportController {
 
 	@GetMapping(value = "/download")
 	public ResponseEntity<InputStreamResource> downloadReport() throws ReportDataNotFoundException,IOException  {
-	List<Report> listOfReport    = reportService.getReportsByCurrentMonthYear();
-	  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yyyy");
-      String  monthYear = formatter.format(LocalDate.now()).toString();
-	if(listOfReport.size() == 0){
-	 	throw new ReportDataNotFoundException("Not reocrd available for current month ");
-	 }
-		ByteArrayInputStream in = pptGenerator.ReportToPpt(listOfReport);
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Disposition", "attachment; filename=MBR-"+dateUtil.getCurrentMontYear()+"+.pptx");
-		in.close();
+		listOfReport    = reportService.getReportsByCurrentMonthYear();
+	     if(listOfReport.size() == 0){
+	 	   throw new ReportDataNotFoundException("No report available for current month ");
+	     }
+		monthYear = dateUtil.getCurrentMontYear("MMM-yyyy");
+		byteArrayInputStream  = pptGenerator.ReportToPpt(listOfReport);
+		headers = new HttpHeaders();
+		headers.add("Content-Disposition", "attachment; filename=MBR-"+monthYear+".pptx");
+		byteArrayInputStream.close();
 		return ResponseEntity
 				.ok()
 				.headers(headers)
-				.body(new InputStreamResource(in));
+				.body(new InputStreamResource(byteArrayInputStream));
 	}
 }

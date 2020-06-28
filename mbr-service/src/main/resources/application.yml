@@ -26,7 +26,7 @@ spring:
 logging:
  level:
   org: 
-   springframework: DEBUG
+   #springframework: DEBUG
    com.capgemini.mbrt: DEBUG
 #spring.aop.auto = false
 eureka:
