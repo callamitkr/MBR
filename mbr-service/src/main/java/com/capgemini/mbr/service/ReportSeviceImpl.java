@@ -28,9 +28,9 @@ public class ReportSeviceImpl implements ReportService {
 	}
 
 	@Override
-	public Optional<Report> findReportOfCurrentMonthByCreatedBy(String userId) {
+	public Optional<Report> findReportOfCurrentMonthByuser(String userId) {
 		logger.info("Searching the report creted by {}", userId);
-		return repository.findReportOfCurrentMonthByCreatedBy(userId);
+		return repository.findReportOfCurrentMonthByuser(userId);
 	}
 
 	@Override
@@ -39,16 +39,12 @@ public class ReportSeviceImpl implements ReportService {
 		return repository.save(report);
 	}
 
-	@Override
-	public List<Report> getReportsByMonthYear(int month, int year) {
-		return repository.getReportsByMonthYear(month, year);
-	}
 
 	@Override
 	public List<Report> getReportsByCurrentMonthYear() {
 		int month = LocalDate.now().getMonthValue();
 		int year = LocalDate.now().getYear();
-		return repository.getReportsByMonthYear(month, year);
+		return repository.getReportsByCurrentMonthYear(month, year);
 	}
 
 }

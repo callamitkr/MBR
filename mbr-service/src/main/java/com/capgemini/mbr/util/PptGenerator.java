@@ -9,13 +9,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-import com.capgemini.mbr.model.Report;
 import org.apache.poi.sl.usermodel.PictureData.PictureType;
+import org.apache.poi.sl.usermodel.ShapeType;
 import org.apache.poi.sl.usermodel.TextParagraph.TextAlign;
 import org.apache.poi.sl.usermodel.TextShape.TextAutofit;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xslf.usermodel.SlideLayout;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFAutoShape;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
@@ -26,18 +27,27 @@ import org.apache.poi.xslf.usermodel.XSLFTableRow;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.util.ResourceUtils;
 
+import com.capgemini.mbr.model.Report;
+
+
+
 @Configuration
-@PropertySource("classpath:messages.properties")
+@PropertySource("classpath:application.properties")
 public class PptGenerator {
+	@Autowired
+	DateUtil dateUtil;
 	@Value("${report.main.title}")
 	private  String mainReportTitle;
-	@Value("${report.sec.title}")
-	private  String secReportTitle;
+	@Value("${report.name}")
+	private  String reportName;
+	@Value("${report.name.font}")
+	private  String reportNameFont;
 	@Value("${report.table.title}")
 	private  String reportTableTitle;
 	@Value("${column.programName}")
@@ -62,17 +72,20 @@ public class PptGenerator {
 	private  String titleHeadFont;
 	@Value("${table.font}")
 	private  String tableFont;
+	@Value("${table.title.font.size}")
+	private  Double tableTitleFontSize;
 	@Value("${title.font.size}")
 	private  Double titleFontSize;
+	@Value("${report.name.font.size}")
+	private  Double reportNameFontSize;
 	@Value("${table.font.size}")
 	private  Double tableFontSize;
-	@Value("${report.head.font.Size}")
-	private  Double reportHeadFontSize;
 
 	public  ByteArrayInputStream ReportToPpt(List<Report> reportList) throws IOException {
 
 		String[] columns = { programName, projectDescription, barclaysPm, bu , phase,
 								keyMilestone, KeyHighlights,barclaysFeedback,issue};
+				
 		XSLFSlideMaster slideMaster;
 		XSLFSlide slide1,slide2;
 		XSLFSlideLayout titleLayout,slidelayoutTitleOnly;
@@ -85,28 +98,42 @@ public class PptGenerator {
 		XSLFTableCell cell;
 		XSLFTableRow tr;
 		File image;
+		XSLFAutoShape shapeLine,shapeBorder;
 		byte[] picture ;
 		
 		try (XMLSlideShow ppt = new XMLSlideShow(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
-		    slideMaster = ppt.getSlideMasters().get(0);
+	
+			slideMaster = ppt.getSlideMasters().get(0);
 		    titleLayout = slideMaster.getLayout(SlideLayout.TITLE);
 		    slide1 = ppt.createSlide(titleLayout);
 			slide1Title1 = slide1.getPlaceholder(0);
+			shapeLine = slide1.createAutoShape();
+			shapeLine.setAnchor(new Rectangle(35, 290, 650, 3));
+			shapeLine.setShapeType(ShapeType.LINE);
+			shapeLine.setLineColor(new Color(201, 201, 100));
+			shapeLine.setLineWidth(2);
+			
+			shapeBorder = slide1.createAutoShape();
+			shapeBorder.setAnchor(new Rectangle(15, 15, 690, 510));
+			shapeBorder.setShapeType(ShapeType.RECT);
+			shapeBorder.setLineColor(new Color(201, 201, 100));
+			shapeBorder.setLineWidth(2);
+			
 			slide1Title1.clearText();
 		    textRunTitle1 = slide1Title1.addNewTextParagraph().addNewTextRun();
 			textRunTitle1.setFontColor(Color.RED);
 			textRunTitle1.setFontSize(titleFontSize);
-			textRunTitle1.setUnderlined(true);
 			textRunTitle1.setText(mainReportTitle);
 			textRunTitle1.setFontFamily(titleHeadFont);
-		    slide1Title2 = slide1.getPlaceholder(1);
+
+			slide1Title2 = slide1.getPlaceholder(1);
 			slide1Title2.clearText();
 		    textRunTitle2 = slide1Title2.addNewTextParagraph().addNewTextRun();
-			textRunTitle2.setFontSize(titleFontSize);
-			textRunTitle2.setText(secReportTitle);
-			textRunTitle2.setFontFamily(titleHeadFont);
+			textRunTitle2.setFontSize(reportNameFontSize);
+			textRunTitle2.setText(reportName+" - "+ dateUtil.getCurrentMontYear());
+			textRunTitle2.setFontFamily(reportNameFont);
 			textRunTitle2.setFontColor(Color.BLUE);
-			
+
 			// reading an image
 			image = ResourceUtils.getFile("classpath:image/thumbup.png");
 		    picture = IOUtils.toByteArray(new FileInputStream(image));
@@ -124,7 +151,7 @@ public class PptGenerator {
 			slid2Title.getSheet().createPicture(pictureData).setAnchor(new Rectangle(630,5,40,40));
 			slid2Title.setAnchor(new Rectangle(0, 0, 720, 50));
 		    slid2TitleTextRun = slid2Title.addNewTextParagraph().addNewTextRun();
-		    slid2TitleTextRun.setFontSize(reportHeadFontSize);
+		    slid2TitleTextRun.setFontSize(tableTitleFontSize);
 		    slid2TitleTextRun.setFontColor(Color.white);
 		    slid2TitleTextRun.setFontFamily(titleHeadFont);
 		    slid2TitleTextRun.setText(reportTableTitle);
@@ -142,6 +169,7 @@ public class PptGenerator {
 				 row.setFontSize(tableFontSize);
 				 row.setFontColor(Color.white);
 				 row.setFontFamily(tableFont);
+				 row.setBold(true);
 				 th.setFillColor(new Color(149, 183, 72));
 				 table.setColumnWidth(i, 80);
 			}

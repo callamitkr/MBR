@@ -7,12 +7,10 @@ import com.capgemini.mbr.exception.ReportFoundException;
 import com.capgemini.mbr.model.Report;
 
 public interface ReportService {
-	
-	List<Report>getReportsByMonthYear(int month,int year);
-	List<Report>getReportsByCurrentMonthYear();
+
+	Optional<Report> findReportOfCurrentMonthByuser(String userId) throws ReportFoundException;
 	Report createReport(Report report);
-	Optional<Report> findReportOfCurrentMonthByCreatedBy(String userId) throws ReportFoundException;
 	Report updateReport(Report report);
-	
+	List<Report>getReportsByCurrentMonthYear();
    
 }
