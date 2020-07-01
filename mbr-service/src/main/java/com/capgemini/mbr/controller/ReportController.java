@@ -2,9 +2,9 @@ package com.capgemini.mbr.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.mbr.bean.Response;
@@ -32,7 +31,6 @@ import com.capgemini.mbr.util.DateUtil;
 import com.capgemini.mbr.util.PptGenerator;
 
 @RestController
-@RequestMapping("/mbr")
 public class ReportController {
 	private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
 
@@ -42,7 +40,6 @@ public class ReportController {
 	private PptGenerator pptGenerator;
 	@Autowired
 	private DateUtil dateUtil;
-	private DateTimeFormatter formatter;
 	private String  monthYear;
 	private  List<Report> listOfReport;
 	private ByteArrayInputStream byteArrayInputStream;
@@ -97,7 +94,7 @@ public class ReportController {
 		byteArrayInputStream  = pptGenerator.ReportToPpt(listOfReport);
 		headers = new HttpHeaders();
 		headers.add("Content-Disposition", "attachment; filename=MBR-"+monthYear+".pptx");
-		byteArrayInputStream.close();
+		//byteArrayInputStream.close();
 		return ResponseEntity
 				.ok()
 				.headers(headers)

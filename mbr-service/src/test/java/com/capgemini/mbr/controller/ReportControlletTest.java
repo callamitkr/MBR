@@ -150,8 +150,7 @@ public class ReportControlletTest {
 	}
 
 	private Report getReport(){
-		Report report = new Report(123L, "Card control1", "card control desc1", "barclays1", "Bhavesh", "phase1",
-				"successfully delivered", "report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
+		Report report = new Report("report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
       return report;
 	}
 }

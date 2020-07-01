@@ -1,7 +1,7 @@
 /target//*
-.metadata//*
-.idea//*
-.settings//*
-.classpath
-.project
+*.metadata
+*.idea
+*.settings
+*.classpath
+*.project
 

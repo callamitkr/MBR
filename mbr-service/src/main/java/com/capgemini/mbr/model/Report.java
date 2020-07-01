@@ -1,39 +1,16 @@
 package com.capgemini.mbr.model;
 
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Entity
 @Table(name ="REPORTS")
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Report {
 	@Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="report_Id")
 	private Long reportId;
-	@Column(name="projectName")
-	@NotEmpty(message = "{notempty.projectName}")
-	private String projectName;
-	@Column(name="projectDesc")
-	@NotEmpty(message = "{notempty.projectDesc}")
-	private String projectDesc;
-	@Column(name="barclaysPm")
-	@NotEmpty(message = "{notempty.barclaysPm}")
-    private String barclaysPm;
-	@Column(name="bu")
-	@NotEmpty(message = "{notempty.bu}")
-	private String bu;
-	@Column(name="phase")
-	@NotEmpty(message = "{notempty.paase}")
-	private String phase;
-	@Column(name="keyMilestone")
-	@NotEmpty(message = "{nonempty.keyMilestone}")
-	private String keyMilestone;
-	@Column(name="keyHighlights")
-	@NotEmpty(message = "{nonempty.keyHighlights}")
 	private String keyHighlights;
 	@Column(name="barclaysFeedback")
 	@NotEmpty(message = "{nonempty.barclaysFeedback}")
@@ -49,18 +26,20 @@ public class Report {
 	@Column(name="updatedDate")
 	private LocalDate updatedDate;
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name ="project_id")
+	private Projects projects;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name ="status_id")
+	private ProjectStatus projectStatus;
+	
+	
 	public Report(){
 
 	}
 
-	public Report(Long reportId, String projectName, String projectDesc, String barclaysPm, String bu, String phase, String keyMilestone, String keyHighlights, String barclaysFeedback, String issueRoadblock, String createdBy, LocalDate createdDate,LocalDate updatedDate) {
-		this.reportId = reportId;
-		this.projectName = projectName;
-		this.projectDesc = projectDesc;
-		this.barclaysPm = barclaysPm;
-		this.bu = bu;
-		this.phase = phase;
-		this.keyMilestone = keyMilestone;
+	public Report(String keyHighlights, String barclaysFeedback, String issueRoadblock, String createdBy, LocalDate createdDate,LocalDate updatedDate) {
 		this.keyHighlights = keyHighlights;
 		this.barclaysFeedback = barclaysFeedback;
 		this.issueRoadblock = issueRoadblock;
@@ -75,46 +54,7 @@ public class Report {
 	public void setReportId(Long reportId) {
 		this.reportId = reportId;
 	}
-	public String getProjectName() {
-		return projectName;
-	}
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-	public String getProjectDesc() {
-		return projectDesc;
-	}
-	public void setProjectDesc(String projectDesc) {
-		this.projectDesc = projectDesc;
-	}
-	public String getBu() {
-		return bu;
-	}
-	public void setBu(String bu) {
-		this.bu = bu;
-	}
-	public String getPhase() {
-		return phase;
-	}
-	public void setPhase(String phase) {
-		this.phase = phase;
-	}
-
-	public String getBarclaysPm() {
-		return barclaysPm;
-	}
-
-	public void setBarclaysPlPm(String barclaysPm) {
-		this.barclaysPm = barclaysPm;
-	}
-
-	public String getKeyMilestone() {
-		return keyMilestone;
-	}
-
-	public void setKeyMileStoneGag(String keyMilestone) {
-		this.keyMilestone = keyMilestone;
-	}
+	
 
 	public String getKeyHighlights() {
 		return keyHighlights;
@@ -165,13 +105,26 @@ public class Report {
 		this.updatedDate = updatedDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Report [reportId=" + reportId + ", projectName=" + projectName + ", projectDesc=" + projectDesc
-				+ ", barclaysPm=" + barclaysPm + ", bu=" + bu + ", phase=" + phase + ", keyMilestone=" + keyMilestone
-				+ ", keyHighlights=" + keyHighlights + ", barclaysFeedback=" + barclaysFeedback + ", issueRoadblock="
-				+ issueRoadblock + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedDate="
-				+ updatedDate + "]";
+	public Projects getProjects() {
+		return projects;
 	}
+
+	public void setProjects(Projects projects) {
+		this.projects = projects;
+	}
+
+	public ProjectStatus getProjectStatus() {
+		return projectStatus;
+	}
+
+	public void setProjectStatus(ProjectStatus projectStatus) {
+		this.projectStatus = projectStatus;
+	}
+
+	public void setIssueRoadblock(String issueRoadblock) {
+		this.issueRoadblock = issueRoadblock;
+	}
+	
+	
 
 }

@@ -23,53 +23,50 @@ import org.springframework.util.ResourceUtils;
 
 import com.capgemini.mbr.model.Report;
 
+@Configuration
+@PropertySource("classpath:messages.properties")
+public class PptGenerator {
 
-
-
-	@Configuration
-	@PropertySource("classpath:messages.properties")
-	public class PptGenerator {
-
-		@Value("${report.main.title}")
-		private  String mainReportTitle;
-		@Value("${report.name}")
-		private  String reportName;
-		@Value("${report.name.font}")
-		private  String reportNameFont;
-		@Value("${report.table.title}")
-		private  String reportTableTitle;
-		@Value("${column.programName}")
-		private  String programName;
-		@Value("${column.projectDescription}")
-		private  String projectDescription;
-		@Value("${column.barclaysPm}")
-		private  String barclaysPm;
-		@Value("${column.bu}")
-		private  String bu;
-		@Value("${column.phase}")
-		private  String phase;
-		@Value("${column.keyMilestone}")
-		private  String keyMilestone;
-		@Value("${column.KeyHighlights}")
-		private  String KeyHighlights;
-		@Value("${column.barclaysFeedback}")
-		private  String barclaysFeedback;
-		@Value("${column.issue}")
-		private  String issue;
-		@Value("${title.head.font}")
-		private  String titleHeadFont;
-		@Value("${table.font}")
-		private  String tableFont;
-		@Value("${table.title.font.size}")
-		private  Double tableTitleFontSize;
-		@Value("${title.font.size}")
-		private  Double titleFontSize;
-		@Value("${report.name.font.size}")
-		private  Double reportNameFontSize;
-		@Value("${table.font.size}")
-		private  Double tableFontSize;
-		@Autowired
-		private DateUtil dateUtil;
+	@Value("${report.main.title}")
+	private  String mainReportTitle;
+	@Value("${report.name}")
+	private  String reportName;
+	@Value("${report.name.font}")
+	private  String reportNameFont;
+	@Value("${report.table.title}")
+	private  String reportTableTitle;
+	@Value("${column.programName}")
+	private  String programName;
+	@Value("${column.projectDescription}")
+	private  String projectDescription;
+	@Value("${column.barclaysPm}")
+	private  String barclaysPm;
+	@Value("${column.bu}")
+	private  String bu;
+	@Value("${column.phase}")
+	private  String phase;
+	@Value("${column.keyMilestone}")
+	private  String keyMilestone;
+	@Value("${column.KeyHighlights}")
+	private  String KeyHighlights;
+	@Value("${column.barclaysFeedback}")
+	private  String barclaysFeedback;
+	@Value("${column.issue}")
+	private  String issue;
+	@Value("${title.head.font}")
+	private  String titleHeadFont;
+	@Value("${table.font}")
+	private  String tableFont;
+	@Value("${table.title.font.size}")
+	private  Double tableTitleFontSize;
+	@Value("${title.font.size}")
+	private  Double titleFontSize;
+	@Value("${report.name.font.size}")
+	private  Double reportNameFontSize;
+	@Value("${table.font.size}")
+	private  Double tableFontSize;
+	@Autowired
+	private DateUtil dateUtil;
 
 	public  ByteArrayInputStream ReportToPpt(List<Report> reportList) throws IOException {
 
@@ -177,22 +174,22 @@ import com.capgemini.mbr.model.Report;
 					row.setFontSize(tableFontSize);
 					switch (i) {
 					case 0:
-						 row.setText(reportList.get(rownum).getProjectName());
+						 row.setText(reportList.get(rownum).getProjects().getProjectName());
 						break;
 					case 1:
-						row.setText(reportList.get(rownum).getProjectDesc());
+						row.setText(reportList.get(rownum).getProjects().getProjectDesc());
 						break;
 					case 2:
-						row.setText(reportList.get(rownum).getBarclaysPm());
+						row.setText(reportList.get(rownum).getProjects().getBarclaysPm());
 						break;
 					case 3:
-						row.setText(reportList.get(rownum).getBu());
+						row.setText(reportList.get(rownum).getProjects().getBu().getBu());
 						break;
 					case 4:
-						row.setText(reportList.get(rownum).getPhase());
+						row.setText(reportList.get(rownum).getProjects().getPhase().getPhase());
 						break;
 					case 5:
-						row.setText(reportList.get(rownum).getKeyMilestone());
+						row.setText(reportList.get(rownum).getProjectStatus().getStatus());
 						break;
 					case 6:
 						row.setText(reportList.get(rownum).getKeyHighlights());

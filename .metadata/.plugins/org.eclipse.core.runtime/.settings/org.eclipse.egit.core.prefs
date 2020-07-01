@@ -1,4 +1,4 @@
-GitRepositoriesView.GitDirectories=D\:\\MbrTool\\mbr-service\\.git;D\:\\MbrTool\\mbrt-service\\.git;
-GitRepositoriesView.GitDirectories.relative=mbr-service\\.git;mbrt-service\\.git;
+GitRepositoriesView.GitDirectories=D\:\\MbrTool\\.git;
+GitRepositoriesView.GitDirectories.relative=.git;
 core_autoIgnoreDerivedResources=false
 eclipse.preferences.version=1

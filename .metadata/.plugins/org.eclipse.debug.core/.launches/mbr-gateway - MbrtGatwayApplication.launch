@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.springframework.ide.eclipse.boot.launch">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/mbr-gateway/src/main/java/com/capgemini/mbrt/MbrtGatwayApplication.java"/>
+<listEntry value="/mbr-gateway/src/main/java/com/capgemini/mbr/MbrtGatwayApplication.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenClassPathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.capgemini.mbrt.MbrtGatwayApplication"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.capgemini.mbr.MbrtGatwayApplication"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="mbr-gateway"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenSourcePathProvider"/>
 <stringAttribute key="process_factory_id" value="org.springframework.ide.eclipse.boot.launch.process.BootProcessFactory"/>
