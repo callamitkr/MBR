@@ -3,8 +3,6 @@ server:
 spring:
  application:
   name : mbr-service
- devtools:
-  add-properties: true
 # Enabling H2 Console
  h2:
   console:
@@ -18,6 +16,8 @@ spring:
   password: sa
  jpa: 
   database-platform: org.hibernate.dialect.H2Dialect
+  hibernate:
+   ddl-auto: create
 #logging.level.org.hibernate.SQL=DEBUG
 #logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
   show-sql: true
@@ -34,8 +34,10 @@ eureka:
  client:
   service-url:
    defaultZone: http://localhost:8761/eureka
-   register-with-eureka: true
-   fetch-registry: true
+  register-with-eureka: true
+  fetch-registry: true
  instance:
   instance-id : ${spring.application.name}:${random.int}
+ 
+ 
 

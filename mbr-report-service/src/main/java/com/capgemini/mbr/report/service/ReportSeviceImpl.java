@@ -23,26 +23,6 @@ public class ReportSeviceImpl implements ReportService {
 	ReportRepository repository;
 
 	@Override
-	public Report createReport(Report report) {
-		report.setCreatedDate(LocalDate.now());
-		report.setUpdatedDate(LocalDate.now());
-		return repository.save(report);
-	}
-
-	@Override
-	public Optional<Report> findReportOfCurrentMonthByuser(String userId) {
-		logger.info("Searching the report creted by {}", userId);
-		return repository.findReportOfCurrentMonthByuser(userId);
-	}
-
-	@Override
-	public Report updateReport(Report report) {
-		report.setUpdatedDate(LocalDate.now());
-		return repository.save(report);
-	}
-
-
-	@Override
 	public List<Report> getReportsByCurrentMonthYear() {
 		int month = LocalDate.now().getMonthValue();
 		int year = LocalDate.now().getYear();

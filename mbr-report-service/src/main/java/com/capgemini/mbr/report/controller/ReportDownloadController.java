@@ -20,7 +20,7 @@ import com.capgemini.mbr.report.util.PptGenerator;
 
 
 @RestController
-public class ReportController {
+public class ReportDownloadController {
 	
 	@Autowired
 	private ReportService reportService;
@@ -42,7 +42,7 @@ public class ReportController {
 		byteArrayInputStream  = pptGenerator.ReportToPpt(listOfReport);
 		headers = new HttpHeaders();
 		headers.add("Content-Disposition", "attachment; filename=MBR-"+monthYear+".pptx");
-		//byteArrayInputStream.close();
+		byteArrayInputStream.close();
 		return ResponseEntity
 				.ok()
 				.headers(headers)

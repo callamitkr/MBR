@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 @Entity
 @Table(name ="BU")
 public class Bu {

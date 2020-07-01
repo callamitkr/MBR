@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.validation.constraints.NotEmpty"/>
-<fullyQualifiedTypeName name="org.springframework.validation.annotation.Validated"/>
-<fullyQualifiedTypeName name="com.sun.istack.NotNull"/>
-<fullyQualifiedTypeName name="org.hibernate.annotations.NotFound"/>
-<fullyQualifiedTypeName name="org.springframework.cloud.client.discovery.EnableDiscoveryClient"/>
-<fullyQualifiedTypeName name="org.springframework.cloud.netflix.zuul.EnableZuulProxy"/>
-<fullyQualifiedTypeName name="org.springframework.cloud.netflix.eureka.EnableEurekaClient"/>
-<fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso"/>
-<fullyQualifiedTypeName name="com.capgemini.mbrt.service.ReportService"/>
-<fullyQualifiedTypeName name="com.capgemini.mbrt.repository.ReportRepository"/>
-<fullyQualifiedTypeName name="com.capgemini.mbrt.model.Report"/>
-<fullyQualifiedTypeName name="org.springframework.boot.test.context.SpringBootTest"/>
-<fullyQualifiedTypeName name="java.util.Optional"/>
-<fullyQualifiedTypeName name="org.springframework.mock.web.MockHttpServletRequest"/>
-<fullyQualifiedTypeName name="org.junit.Rule"/>
 <fullyQualifiedTypeName name="org.mockito.junit.MockitoRule"/>
 <fullyQualifiedTypeName name="org.mockito.junit.MockitoJUnit"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
@@ -23,7 +8,6 @@
 <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.springframework.cloud.netflix.eureka.server.EnableEurekaServer"/>
 <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
 <fullyQualifiedTypeName name="org.springframework.cloud.netflix.zuul.ZuulFilterInitializer"/>
@@ -34,7 +18,6 @@
 <fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="com.capgemini.mbr.util.DateUtil"/>
-<fullyQualifiedTypeName name="com.capgemini.mbr.model.Report"/>
 <fullyQualifiedTypeName name="javax.persistence.OneToMany"/>
 <fullyQualifiedTypeName name="com.capgemini.mbr.model.Phase"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.support.JpaRepositoryFactory"/>
@@ -56,4 +39,25 @@
 <fullyQualifiedTypeName name="javax.persistence.GenerationType"/>
 <fullyQualifiedTypeName name="com.capgemini.mbr.model.ProjectStatus"/>
 <fullyQualifiedTypeName name="java.time.LocalDate"/>
+<fullyQualifiedTypeName name="com.netflix.loadbalancer.Server"/>
+<fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server"/>
+<fullyQualifiedTypeName name="org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties.Web.Server"/>
+<fullyQualifiedTypeName name="org.apache.catalina.Server"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.model.Report"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.sevice.ReportService"/>
+<fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.domain.EntityScan"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.service.ReportService"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.util.PptGenerator"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.exception.ReportDataNotFoundException"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.model.Bu"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.model.Phase"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.model.Projects"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.model.ProjectStatus"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.model.Report"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.repository.ReportRepository"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.exception.ReportFoundException"/>
+<fullyQualifiedTypeName name="com.capgemini.mbr.report.util.DateUtil"/>
 </qualifiedTypeNameHistroy>

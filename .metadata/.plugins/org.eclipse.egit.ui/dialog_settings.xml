@@ -12,6 +12,15 @@
 		<item key="sortItemState" value="false"/>
 	</section>
 	<section name="GitCommitMessageComponent">
+		<list key="D:\MbrTool\.git">
+			<item value="false"/>
+			<item value="amit kumar &lt;amitmku05@gmail.com&gt;"/>
+			<item value="Fist check in"/>
+			<item value="amit kumar &lt;amitmku05@gmail.com&gt;"/>
+			<item value="b313c5f5b2974185fabdca8d6fb0b28a6984c4bd"/>
+			<item value="0"/>
+			<item value="false"/>
+		</list>
 	</section>
 	<section name="org.eclipse.egit.ui.internal.push.PushResultDialog.dialogBounds">
 		<item key="DIALOG_X_ORIGIN" value="534"/>

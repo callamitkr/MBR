@@ -3,6 +3,7 @@ package com.capgemini.mbr;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,8 +25,6 @@ import com.capgemini.mbr.repository.PhaseRepository;
 import com.capgemini.mbr.repository.ProjectStatusRepository;
 import com.capgemini.mbr.repository.ProjectsRepository;
 import com.capgemini.mbr.repository.ReportRepository;
-import com.capgemini.mbr.util.DateUtil;
-import org.h2.tools.Server;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
@@ -67,11 +66,7 @@ public class MbrReportingToolApplication implements CommandLineRunner {
 	    return Server.createTcpServer(
 	      "-tcp", "-tcpAllowOthers", "-tcpPort", "9090");
 	}
-	@Bean
-	public DateUtil getDateUtil(){
-		DateUtil dateUtil = new DateUtil();
-		return dateUtil;
-	}
+	
     @Override
 	public void run(String... args) throws Exception {
 

@@ -8,7 +8,5 @@ public class DateUtil {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		return formatter.format(LocalDate.now()).toString();
 	}
-    
-  
-
+   
 }

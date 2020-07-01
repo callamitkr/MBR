@@ -1,23 +1,15 @@
 package com.capgemini.mbr.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
-
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.capgemini.mbr.aspect.LoggingAspect;
-import com.capgemini.mbr.exception.ReportDataNotFoundException;
-import com.capgemini.mbr.exception.ReportNotFoundException;
-import com.capgemini.mbr.util.DateUtil;
-import com.capgemini.mbr.util.PptGenerator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -34,8 +25,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.capgemini.mbr.aspect.LoggingAspect;
 import com.capgemini.mbr.bean.Response;
 import com.capgemini.mbr.exception.ReportFoundException;
+import com.capgemini.mbr.exception.ReportNotFoundException;
 import com.capgemini.mbr.model.Report;
 import com.capgemini.mbr.service.ReportService;
 
@@ -49,11 +42,8 @@ public class ReportControlletTest {
 	@Mock
 	private ReportService reportService;
 	@Mock
-	private DateUtil dateUtil;
-	@Mock
 	private ByteArrayInputStream byteArrayInputStream;
-	@Mock
-	private PptGenerator pptGenerator;
+
 	@Before
 	public void beforeTest() {
 			MockMvcBuilders.standaloneSetup(ReportController.class)
@@ -123,25 +113,6 @@ public class ReportControlletTest {
 		assertThat(reportController.getReportByUserId(getReport().getCreatedBy()).getStatusCodeValue()).isEqualTo(200);
 	}
 
-	@Test
-	public void downloadReportTest() throws ReportDataNotFoundException, IOException {
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-		String monthYear = "JUN-2020";
-		byte[] byteArr = {'a','c','f'};
-		ByteArrayInputStream out = new ByteArrayInputStream(byteArr);
-		when(reportService.getReportsByCurrentMonthYear()).thenReturn(getReportList());
-		when(dateUtil.getCurrentMontYear("MMM-yyyy")).thenReturn(monthYear);
-		when(pptGenerator.ReportToPpt(any())).thenReturn(byteArrayInputStream);
-		assertThat(reportController.downloadReport().getStatusCodeValue()).isEqualTo(200);
-	}
-	@Test(expected = ReportDataNotFoundException.class)
-	public void reportDataNotFoundDownloadReportTest() throws ReportDataNotFoundException, IOException {
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-		when(reportService.getReportsByCurrentMonthYear()).thenReturn(new ArrayList<>());
-		reportController.downloadReport();
-	}
 
 	private List<Report> getReportList(){
 		List<Report> reportlist = new ArrayList<>();
