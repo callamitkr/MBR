@@ -1,14 +1,14 @@
 package com.capgemini.mbr.service;
 
+import com.capgemini.mbr.exception.FoundException;
+import com.capgemini.mbr.model.Report;
+
 import java.util.List;
 import java.util.Optional;
 
-import com.capgemini.mbr.exception.ReportFoundException;
-import com.capgemini.mbr.model.Report;
-
 public interface ReportService {
 
-	Optional<Report> findReportOfCurrentMonthByuser(String userId) throws ReportFoundException;
+	Optional<Report> findReportOfCurrentMonthByuser(String userId) throws FoundException;
 	Report createReport(Report report);
 	Report updateReport(Report report);
 	List<Report>getReportsByCurrentMonthYear();

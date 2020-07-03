@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="package com.capgemini.mbr.report.model;"/>
 			<item value="92d1a1c69f6865f9"/>
 			<item value="getReport"/>
 			<item value="segment"/>

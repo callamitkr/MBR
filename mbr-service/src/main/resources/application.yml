@@ -1,5 +1,5 @@
 server:
- port: 0
+ port: 9001
 spring:
  application:
   name : mbr-service
@@ -21,9 +21,8 @@ spring:
 #logging.level.org.hibernate.SQL=DEBUG
 #logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
   show-sql: true
- zipkin: 
-  base-url: http://localhost:9411/
-
+ #zipkin:
+  #base-url: http://localhost:9411/
 logging:
  level:
   org: 
@@ -34,10 +33,11 @@ eureka:
  client:
   service-url:
    defaultZone: http://localhost:8761/eureka
-  register-with-eureka: true
-  fetch-registry: true
+  register-with-eureka: false
+  fetch-registry: false
  instance:
   instance-id : ${spring.application.name}:${random.int}
- 
+
+
  
 

@@ -6,6 +6,7 @@ public class Response {
     private String message;
     private HttpStatus status;
 
+    public Response(){}
     public Response(String message, HttpStatus status) {
         this.message = message;
         this.status = status;

@@ -1,35 +1,29 @@
 package com.capgemini.mbr;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
-
+import com.capgemini.mbr.model.*;
+import com.capgemini.mbr.repository.*;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import com.capgemini.mbr.model.Bu;
-import com.capgemini.mbr.model.Phase;
-import com.capgemini.mbr.model.ProjectStatus;
-import com.capgemini.mbr.model.Projects;
-import com.capgemini.mbr.model.Report;
-import com.capgemini.mbr.repository.BuRepository;
-import com.capgemini.mbr.repository.PhaseRepository;
-import com.capgemini.mbr.repository.ProjectStatusRepository;
-import com.capgemini.mbr.repository.ProjectsRepository;
-import com.capgemini.mbr.repository.ReportRepository;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Locale;
+
+//import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
-@EnableDiscoveryClient
-public class MbrReportingToolApplication implements CommandLineRunner {
+//@EnableDiscoveryClient
+public class MbrReportingToolApplication implements CommandLineRunner  {
 	@Autowired
 	ReportRepository reportRepository;
 	@Autowired
@@ -37,7 +31,7 @@ public class MbrReportingToolApplication implements CommandLineRunner {
 	@Autowired
 	PhaseRepository phaseRepository;
 	@Autowired
-	ProjectsRepository projectsRepository;
+	ProjectRepository projectsRepository;
 	@Autowired
 	ProjectStatusRepository projectStatusRepository;
 	
@@ -45,13 +39,19 @@ public class MbrReportingToolApplication implements CommandLineRunner {
 		SpringApplication.run(MbrReportingToolApplication.class, args);
 	}
 
-	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource
-				= new ReloadableResourceBundleMessageSource();
 
-		messageSource.setBasename("classpath:messages");
-		messageSource.setDefaultEncoding("UTF-8");
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+		sessionLocaleResolver.setDefaultLocale(Locale.US);
+		return sessionLocaleResolver;
+	}
+
+	@Bean
+	public ResourceBundleMessageSource messageSource() {
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("messages");
+		messageSource.setUseCodeAsDefaultMessage(true);
 		return messageSource;
 	}
 
@@ -61,26 +61,27 @@ public class MbrReportingToolApplication implements CommandLineRunner {
 		bean.setValidationMessageSource(messageSource());
 		return bean;
 	}
+
 	@Bean(initMethod = "start", destroyMethod = "stop")
 	public Server inMemoryH2DatabaseaServer() throws SQLException {
 	    return Server.createTcpServer(
 	      "-tcp", "-tcpAllowOthers", "-tcpPort", "9090");
 	}
-	
+
     @Override
 	public void run(String... args) throws Exception {
 
     	Phase phase1 = new Phase("Development");
     	Phase phase2 = new Phase("Support");
-    	Phase phase3 = new Phase("Maintanace");
+    	Phase phase3 = new Phase("Maintenance");
     	Phase phase4 = new Phase("Production Support");
     	
     	Bu bu1 = new Bu("US");
     	Bu bu2 = new Bu("UK");
     	Bu bu3 = new Bu("Canada");
-    	Projects project1 =  new Projects("Cyber Security","This for cyber Security Project","Ajay singh");
-    	Projects project2 = new  Projects("Push Notifivation","This project for push notification for US Client","Bhavesh Shukla");
-    	Projects project3 =	new  Projects("Easy pay","It is for Payment","Amit Rai");
+    	Project project1 =  new Project("Cyber Security","This for cyber Security Project","Ajay singh");
+    	Project project2 = new Project("Push Notification","This project for push notification for US Client","Bhavesh Shukla");
+    	Project project3 =	new Project("Easy pay","It is for Payment","Amit Rai");
 	
     	project1.setBu(bu1);
     	project2.setBu(bu2);
@@ -117,11 +118,12 @@ public class MbrReportingToolApplication implements CommandLineRunner {
     	report3.setProjectStatus(projectStatus3);
     	report1.setProjectStatus(projectStatus1);
 
-    	report1.setProjects(project1);
-    	report2.setProjects(project2);
-    	report3.setProjects(project3);
+    	report1.setProject(project1);
+    	report2.setProject(project2);
+    	report3.setProject(project3);
 
-    	reportRepository.save(report1); reportRepository.save(report2);
+    	reportRepository.save(report1);
+    	reportRepository.save(report2);
     	reportRepository.save(report3);
 
 	}

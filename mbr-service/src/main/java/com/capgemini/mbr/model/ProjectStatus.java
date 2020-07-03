@@ -34,4 +34,11 @@ public class ProjectStatus {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "ProjectStatus{" +
+				"statusId=" + statusId +
+				", status='" + status + '\'' +
+				'}';
+	}
 }

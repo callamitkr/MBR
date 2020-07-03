@@ -10,8 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="Projects")
-public class Projects {
+@Table(name ="PROJECT")
+public class Project {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class Projects {
 	@JoinColumn(name ="phaseId")
 	private Phase phase;
 	
-	public Projects(){
+	public Project(){
 		
 	}
 	
-	public Projects(String projectName, String projectDesc, String barclaysPm) {
+	public Project(String projectName, String projectDesc, String barclaysPm) {
 		ProjectName = projectName;
 		ProjectDesc = projectDesc;
 		this.barclaysPm = barclaysPm;
@@ -76,8 +76,16 @@ public class Projects {
 	public void setPhase(Phase phase) {
 		this.phase = phase;
 	}
-	
-	
-	
 
+	@Override
+	public String toString() {
+		return "Project{" +
+				"projectId=" + projectId +
+				", ProjectName='" + ProjectName + '\'' +
+				", ProjectDesc='" + ProjectDesc + '\'' +
+				", barclaysPm='" + barclaysPm + '\'' +
+				", bu=" + bu +
+				", phase=" + phase +
+				'}';
+	}
 }

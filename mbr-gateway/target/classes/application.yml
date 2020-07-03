@@ -20,12 +20,15 @@ zuul:
       serviceId: mbr-service
     mbr_report_service:
       path: /report/**
-      serviceId: mbr-report-service   
-# Increase the Hystrix timeout to 60s (globally)      
-hystrix: 
+      serviceId: mbr-report-service  
+  host:
+   connect-timeout-millis: 10000
+   socket-timeout-millis: 60000
+
+hystrix:
  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000      
+  default:
+   execution:
+    isolation:
+     thread:
+      timeoutInMilliseconds: 60000

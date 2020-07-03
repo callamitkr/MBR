@@ -28,7 +28,7 @@ public class Report {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name ="project_id")
-	private Projects projects;
+	private Project project;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name ="status_id")
@@ -105,12 +105,12 @@ public class Report {
 		this.updatedDate = updatedDate;
 	}
 
-	public Projects getProjects() {
-		return projects;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setProjects(Projects projects) {
-		this.projects = projects;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public ProjectStatus getProjectStatus() {
@@ -121,10 +121,18 @@ public class Report {
 		this.projectStatus = projectStatus;
 	}
 
-	public void setIssueRoadblock(String issueRoadblock) {
-		this.issueRoadblock = issueRoadblock;
+	@Override
+	public String toString() {
+		return "Report{" +
+				"reportId=" + reportId +
+				", keyHighlights='" + keyHighlights + '\'' +
+				", barclaysFeedback='" + barclaysFeedback + '\'' +
+				", issueRoadblock='" + issueRoadblock + '\'' +
+				", createdBy='" + createdBy + '\'' +
+				", createdDate=" + createdDate +
+				", updatedDate=" + updatedDate +
+				", projects=" + project +
+				", projectStatus=" + projectStatus +
+				'}';
 	}
-	
-	
-
 }

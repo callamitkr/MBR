@@ -37,6 +37,11 @@ public class Phase {
 		this.phase = phase;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Phase{" +
+				"phaseId=" + phaseId +
+				", phase='" + phase + '\'' +
+				'}';
+	}
 }

@@ -1,15 +1,14 @@
 package com.capgemini.mbr.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.sun.xml.bind.v2.model.core.ID;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.domain.Persistable;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name ="BU")
+@DynamicUpdate
 public class Bu {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +16,7 @@ public class Bu {
 	private Long buId;
 	@Column(name="bu")
 	private String bu;
-	
+
 	public Bu() {}
 	
 	public Bu( String bu) {
@@ -36,5 +35,12 @@ public class Bu {
 	public void setBu(String bu) {
 		this.bu = bu;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Bu{" +
+				"buId=" + buId +
+				", bu='" + bu + '\'' +
+				'}';
+	}
 }
