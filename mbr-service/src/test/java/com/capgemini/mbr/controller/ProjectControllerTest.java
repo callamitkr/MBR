@@ -2,11 +2,10 @@ package com.capgemini.mbr.controller;
 
 import com.capgemini.mbr.aspect.LoggingAspect;
 import com.capgemini.mbr.bean.Response;
-import com.capgemini.mbr.exception.FoundException;
-import com.capgemini.mbr.exception.NotFoundException;
+import com.capgemini.mbr.exception.DataFoundException;
+import com.capgemini.mbr.exception.DataNotFoundException;
 import com.capgemini.mbr.model.Bu;
 import com.capgemini.mbr.model.Project;
-import com.capgemini.mbr.service.BuService;
 import com.capgemini.mbr.service.ProjectService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,6 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +47,7 @@ public class ProjectControllerTest {
                 .build();
     }
     @Test
-    public void createBuTest() throws FoundException {
+    public void createBuTest() throws DataFoundException {
         Optional<Bu> optionalBu = Optional.empty();
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -55,8 +56,8 @@ public class ProjectControllerTest {
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
     }
 
-    @Test(expected = FoundException.class)
-    public void createBuWhenReportBuExistsTest() throws FoundException {
+    @Test(expected = DataFoundException.class)
+    public void createBuWhenReportBuExistsTest() throws DataFoundException {
         Project project = new Project();
         project.setProjectId(1L);
         project.setBarclaysPm("pm");
@@ -67,7 +68,7 @@ public class ProjectControllerTest {
         ResponseEntity<Response> responseEntity = projectController.createProject(project);
     }
     @Test
-    public void updateBuTest() throws NotFoundException {
+    public void updateBuTest() throws DataNotFoundException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         Optional<Project> existingProject =  Optional.of(getProject());
@@ -75,24 +76,32 @@ public class ProjectControllerTest {
         Assert.assertEquals(projectController.updateProject(new Project()).getStatusCode(), HttpStatus.ACCEPTED);
     }
 
-    @Test(expected = NotFoundException.class)
-    public void updateBuNotFoundExceptionTest() throws FoundException, NotFoundException {
+    @Test(expected = DataNotFoundException.class)
+    public void updateBuNotFoundExceptionTest() throws DataFoundException, DataNotFoundException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         Optional<Project> existingProject = Optional.empty();
-//        when(projectService.findProject(1L)).thenReturn(existingProject);
         Assert.assertEquals(projectController.updateProject(getProject()).getStatusCode(), HttpStatus.ACCEPTED);
     }
     @Test
-    public void delteBuTest() throws NotFoundException {
+    public void delteBuTest() throws DataNotFoundException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         Optional<Project> existingProject =  Optional.of(getProject());
-       // when(buService.findBu(getBu().getBuId())).thenReturn(existingBu);
         Assert.assertEquals(projectController.deleteProject(1L).getStatusCode(), HttpStatus.ACCEPTED);
     }
 
-
+    @Test
+    public void getProjectTest() throws DataNotFoundException {
+        List<Project> projectList = new ArrayList<>();
+        projectList.add(getProject());
+        when(projectService.getproject()).thenReturn(projectList);
+        Assert.assertEquals(projectController.getProject().getStatusCode(),HttpStatus.OK);
+    }
+    @Test(expected = DataNotFoundException.class)
+    public void getBuDataNotFoundTest() throws DataNotFoundException {
+        projectController.getProject();
+    }
     private Project getProject(){
         Project project = new Project("test","test desc","pm");
         return project;

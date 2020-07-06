@@ -2,6 +2,8 @@ package com.capgemini.mbr.model;
 
 import org.junit.Test;
 import static  org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 public class PhaseTest {
 
     @Test
@@ -15,6 +17,7 @@ public class PhaseTest {
         Phase phase = new Phase();
         phase.setPhase("phase1");
         assertEquals(phase.getPhase(),"phase1");
+        assertNotNull(phase.toString());
     }
     @Test
     public void phaseConstructorTest(){

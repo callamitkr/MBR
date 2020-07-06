@@ -1,5 +1,7 @@
 package com.capgemini.mbr.filter;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -33,10 +35,14 @@ public class SimpleFilter extends ZuulFilter {
 	    RequestContext ctx = RequestContext.getCurrentContext();
 	    HttpServletRequest request = ctx.getRequest();
 	    String remoteHost = ctx.getRequest().getRemoteHost();
-	    String requestURL = ctx.getRequest().getRequestURL().toString();
 	    logger.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 	    logger.info("Remote Host  :{}",remoteHost);
 	    logger.info("Requested URL  :{}",request.getRemoteHost());
+		/*
+		 * if (request.getAttribute("AUTH_HEADER") == null) { String sessionId =
+		 * UUID.randomUUID().toString(); ctx.addZuulRequestHeader("AUTH_HEADER",
+		 * sessionId); }
+		 */
 	    return null;
 	  }
 }

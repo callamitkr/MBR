@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="D:\MbrTool\sso-server"/>
 			<item value="D:\MbrTool\mbr-serviceRegistry"/>
 			<item value="D:\MbrTool\mbr-service"/>
 			<item value="D:\MbrTool\mbr-gateway"/>

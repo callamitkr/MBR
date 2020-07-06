@@ -2,7 +2,6 @@ package com.capgemini.mbr.report.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +20,12 @@ public class ReportSeviceImpl implements ReportService {
 
 	@Autowired
 	ReportRepository repository;
-
+	int month;
+	int year;
 	@Override
 	public List<Report> getReportsByCurrentMonthYear() {
-		int month = LocalDate.now().getMonthValue();
-		int year = LocalDate.now().getYear();
+		month = LocalDate.now().getMonthValue();
+		year = LocalDate.now().getYear();
 		return repository.getReportsByCurrentMonthYear(month, year);
 	}
 

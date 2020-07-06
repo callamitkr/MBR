@@ -3,9 +3,11 @@ package com.capgemini.mbr.service;
 import com.capgemini.mbr.model.ProjectStatus;
 import com.capgemini.mbr.repository.ProjectStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ProjectStatusServiceImpl implements ProjectStatusService {
 
     @Autowired
@@ -22,5 +24,10 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     @Override
     public void deleteProjectStatus(Long ProjectStatus) {
         projectStatusRepository.deleteById(ProjectStatus);
+    }
+
+    @Override
+    public List<ProjectStatus> getProjectStatus() {
+        return projectStatusRepository.findAll();
     }
 }

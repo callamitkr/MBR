@@ -16,7 +16,6 @@ public class ProjectStatus {
 	private Long statusId;
 	@Column(name="status")
 	private String status;
-	
 	public ProjectStatus() {	}
 	public ProjectStatus(String status) {
 		this.status = status;
@@ -34,4 +33,11 @@ public class ProjectStatus {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "ProjectStatus{" +
+				"statusId=" + statusId +
+				", status='" + status + '\'' +
+				'}';
+	}
 }

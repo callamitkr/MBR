@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ReportTest {
 
@@ -24,6 +25,7 @@ public class ReportTest {
         assertEquals(report.getUpdatedDate(),LocalDate.now());
         assertEquals(report.getProject().getBarclaysPm(),"Ram");
         assertEquals(report.getProjectStatus().getStatus(),"RED");
+        assertNotNull(report.toString());
 
     }
 }

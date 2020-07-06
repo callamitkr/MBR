@@ -2,8 +2,8 @@ package com.capgemini.mbr.controller;
 
 import com.capgemini.mbr.bean.Response;
 import com.capgemini.mbr.constant.MbrConstant;
-import com.capgemini.mbr.exception.FoundException;
-import com.capgemini.mbr.exception.NotFoundException;
+import com.capgemini.mbr.exception.DataFoundException;
+import com.capgemini.mbr.exception.DataNotFoundException;
 import com.capgemini.mbr.model.Phase;
 import com.capgemini.mbr.service.PhaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-
+@RestController
 public class PhaseController {
     @Autowired
     PhaseService phaseservice;
@@ -24,19 +25,19 @@ public class PhaseController {
     MessageSource messageSource ;
     
     @PostMapping("/createPhase")
-    public ResponseEntity<Response> createPhase(@Valid @RequestBody Phase phase) throws FoundException {
+    public ResponseEntity<Response> createPhase(@Valid @RequestBody Phase phase) throws DataFoundException {
         Optional<Phase> existingPhase = phaseservice.findPhase(phase.getPhaseId());
         if (existingPhase.isPresent()) {
-            throw new FoundException(MbrConstant.PHASE_MESSAGE_KEY,messageSource.getMessage("Phase.exists",null, LocaleContextHolder.getLocale()));
+            throw new DataFoundException(messageSource.getMessage("phase.exists",null, LocaleContextHolder.getLocale()));
         }
         Phase savedPhase = phaseservice.createPhase(phase);
         return new ResponseEntity(new Response("Phase Created", HttpStatus.CREATED),HttpStatus.CREATED);
     }
     @PutMapping("/updatePhase")
-    public ResponseEntity<Response> updatePhase(@Valid @RequestBody Phase phase) throws NotFoundException {
+    public ResponseEntity<Response> updatePhase(@Valid @RequestBody Phase phase) throws DataNotFoundException {
         Optional<Phase> existingPhase = phaseservice.findPhase(phase.getPhaseId());
         if (!existingPhase.isPresent()) {
-            throw new NotFoundException(MbrConstant.PHASE_MESSAGE_KEY,messageSource.getMessage("Phase.notexists",null, Locale.getDefault()));
+            throw new DataNotFoundException(messageSource.getMessage("phase.notexists",null, Locale.getDefault()));
         }
         else{
             phaseservice.createPhase(phase);
@@ -50,5 +51,13 @@ public class PhaseController {
         return new ResponseEntity(new Response(messageSource.getMessage("phase.deleted",null,Locale.getDefault()), HttpStatus.ACCEPTED),HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/getPhase")
+    public ResponseEntity<List<Phase>> getPhase() throws DataNotFoundException {
+        List<Phase> phases  = phaseservice.getPhase();
+        if(phases.size() == 0) {
+            throw new DataNotFoundException(messageSource.getMessage("phase.notfound", null, Locale.getDefault()));
+        }
+        return ResponseEntity.ok().body(phases);
+    }
 
 }

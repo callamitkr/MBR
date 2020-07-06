@@ -23,8 +23,6 @@ import org.springframework.util.ResourceUtils;
 
 import com.capgemini.mbr.report.model.Report;
 
-
-
 @Configuration
 @PropertySource("classpath:messages.properties")
 public class PptGenerator {
@@ -69,26 +67,26 @@ public class PptGenerator {
 	private  Double tableFontSize;
 	@Autowired
 	private DateUtil dateUtil;
+	private XSLFSlideMaster slideMaster;
+	private XSLFSlide slide1,slide2;
+	private XSLFSlideLayout titleLayout,slidelayoutTitleOnly;
+	private XSLFTextRun textRunTitle1,textRunTitle2,slid2TitleTextRun,row;
+	private XSLFTextShape slide1Title1,slide1Title2,slid2Title;
+	private XSLFPictureData pictureData;
+	private XSLFTable table; 
+	private XSLFTableRow tableRow,tr;
+	private XSLFTextParagraph paragraph;
+	private XSLFTableCell cell;
+	private File image;
+	private XSLFAutoShape shapeLine,shapeBorder;
+	private byte[] picture ;
 
-	public  ByteArrayInputStream ReportToPpt(List<Report> reportList) throws IOException {
+	public  ByteArrayInputStream generatePpt(List<Report> reportList) throws IOException {
 
 		String[] columns = { programName, projectDescription, barclaysPm, bu , phase,
 								keyMilestone, KeyHighlights,barclaysFeedback,issue};
 				
-		XSLFSlideMaster slideMaster;
-		XSLFSlide slide1,slide2;
-		XSLFSlideLayout titleLayout,slidelayoutTitleOnly;
-		XSLFTextRun textRunTitle1,textRunTitle2,slid2TitleTextRun,row;
-		XSLFTextShape slide1Title1,slide1Title2,slid2Title;
-		XSLFPictureData pictureData;
-		XSLFTable table; 
-		XSLFTableRow tableRow;
-		XSLFTextParagraph paragraph;
-		XSLFTableCell cell;
-		XSLFTableRow tr;
-		File image;
-		XSLFAutoShape shapeLine,shapeBorder;
-		byte[] picture ;
+		
 		
 		try (XMLSlideShow ppt = new XMLSlideShow(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
 	
@@ -164,8 +162,8 @@ public class PptGenerator {
 			}
 
 			for (int rownum = 0; rownum < reportList.size(); rownum++) {
-				 tr = table.addRow();
-				 tr.setHeight(50);
+				tr = table.addRow();
+				tr.setHeight(50);
 				 
 				for (int i = 0; i < columns.length; i++) {
 				    cell = tr.addCell();
@@ -176,19 +174,19 @@ public class PptGenerator {
 					row.setFontSize(tableFontSize);
 					switch (i) {
 					case 0:
-						 row.setText(reportList.get(rownum).getProjects().getProjectName());
+						 row.setText(reportList.get(rownum).getProject().getProjectName());
 						break;
 					case 1:
-						row.setText(reportList.get(rownum).getProjects().getProjectDesc());
+						row.setText(reportList.get(rownum).getProject().getProjectDesc());
 						break;
 					case 2:
-						row.setText(reportList.get(rownum).getProjects().getBarclaysPm());
+						row.setText(reportList.get(rownum).getProject().getBarclaysPm());
 						break;
 					case 3:
-						row.setText(reportList.get(rownum).getProjects().getBu().getBu());
+						row.setText(reportList.get(rownum).getProject().getBu().getBu());
 						break;
 					case 4:
-						row.setText(reportList.get(rownum).getProjects().getPhase().getPhase());
+						row.setText(reportList.get(rownum).getProject().getPhase().getPhase());
 						break;
 					case 5:
 						row.setText(reportList.get(rownum).getProjectStatus().getStatus());

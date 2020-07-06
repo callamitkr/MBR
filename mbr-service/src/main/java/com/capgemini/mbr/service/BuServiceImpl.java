@@ -5,6 +5,7 @@ import com.capgemini.mbr.repository.BuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class BuServiceImpl implements BuService {
@@ -22,5 +23,10 @@ public class BuServiceImpl implements BuService {
     @Override
     public void deleteBu(Long buId) {
         buRepository.deleteById(buId);
+    }
+
+    @Override
+    public List<Bu> getBu() {
+        return buRepository.findAll();
     }
 }

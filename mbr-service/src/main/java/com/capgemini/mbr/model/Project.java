@@ -17,9 +17,9 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long projectId;
 	@Column(name="projectName")
-	private String ProjectName;
+	private String projectName;
 	@Column(name="projectDesc")
-	private String ProjectDesc;
+	private String projectDesc;
 	@Column(name="barclaysPm")
 	private String barclaysPm;
 	
@@ -33,59 +33,66 @@ public class Project {
 	public Project(){
 		
 	}
-	
+
 	public Project(String projectName, String projectDesc, String barclaysPm) {
-		ProjectName = projectName;
-		ProjectDesc = projectDesc;
+		this.projectName = projectName;
+		this.projectDesc = projectDesc;
 		this.barclaysPm = barclaysPm;
 	}
+
 	public Long getProjectId() {
 		return projectId;
 	}
+
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
-	
+
 	public String getProjectName() {
-		return ProjectName;
+		return projectName;
 	}
+
 	public void setProjectName(String projectName) {
-		ProjectName = projectName;
+		this.projectName = projectName;
 	}
+
 	public String getProjectDesc() {
-		return ProjectDesc;
+		return projectDesc;
 	}
+
 	public void setProjectDesc(String projectDesc) {
-		ProjectDesc = projectDesc;
+		this.projectDesc = projectDesc;
 	}
+
 	public String getBarclaysPm() {
 		return barclaysPm;
 	}
+
 	public void setBarclaysPm(String barclaysPm) {
 		this.barclaysPm = barclaysPm;
 	}
+
 	public Bu getBu() {
 		return bu;
 	}
+
 	public void setBu(Bu bu) {
 		this.bu = bu;
 	}
+
 	public Phase getPhase() {
 		return phase;
 	}
+
 	public void setPhase(Phase phase) {
 		this.phase = phase;
 	}
 
 	@Override
 	public String toString() {
-		return "Project{" +
-				"projectId=" + projectId +
-				", ProjectName='" + ProjectName + '\'' +
-				", ProjectDesc='" + ProjectDesc + '\'' +
-				", barclaysPm='" + barclaysPm + '\'' +
-				", bu=" + bu +
-				", phase=" + phase +
-				'}';
+		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", projectDesc=" + projectDesc
+				+ ", barclaysPm=" + barclaysPm + ", bu=" + bu + ", phase=" + phase + "]";
 	}
+	
+	
 }

@@ -2,8 +2,8 @@ package com.capgemini.mbr.controller;
 
 import com.capgemini.mbr.aspect.LoggingAspect;
 import com.capgemini.mbr.bean.Response;
-import com.capgemini.mbr.exception.FoundException;
-import com.capgemini.mbr.exception.NotFoundException;
+import com.capgemini.mbr.exception.DataFoundException;
+import com.capgemini.mbr.exception.DataNotFoundException;
 import com.capgemini.mbr.model.Bu;
 import com.capgemini.mbr.model.ProjectStatus;
 import com.capgemini.mbr.service.ProjectStatusService;
@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,7 +47,7 @@ public class ProjectStatusControllerTest {
                 .build();
     }
     @Test
-    public void createProjectStatusTest() throws FoundException {
+    public void createProjectStatusTest() throws DataFoundException {
         Optional<ProjectStatus> optionalProjectStatus = Optional.empty();
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -54,8 +56,8 @@ public class ProjectStatusControllerTest {
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
     }
 
-    @Test(expected = FoundException.class)
-    public void createProjectStatusWhenProjectStatusExistsTest() throws FoundException {
+    @Test(expected = DataFoundException.class)
+    public void createProjectStatusWhenProjectStatusExistsTest() throws DataFoundException {
         ProjectStatus projectStatus = new ProjectStatus();
         projectStatus.setStatusId(1L);
         projectStatus.setStatus("RED");
@@ -66,7 +68,7 @@ public class ProjectStatusControllerTest {
         ResponseEntity<Response> responseEntity = projectStatusController.createProjectStatus(projectStatus);
     }
     @Test
-    public void updateProjectStatusTest() throws NotFoundException {
+    public void updateProjectStatusTest() throws DataNotFoundException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         Optional<ProjectStatus> existingStatus =  Optional.of(getProjectStatus());
@@ -74,24 +76,34 @@ public class ProjectStatusControllerTest {
         Assert.assertEquals(projectStatusController.updateProjectStatus(new ProjectStatus()).getStatusCode(), HttpStatus.ACCEPTED);
     }
 
-    @Test(expected = NotFoundException.class)
-    public void updateProjectStatusNotFoundExceptionTest() throws FoundException, NotFoundException {
+    @Test(expected = DataNotFoundException.class)
+    public void updateProjectStatusNotFoundExceptionTest() throws DataFoundException, DataNotFoundException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         Optional<ProjectStatus> existingStatus = Optional.empty();
         Assert.assertEquals(projectStatusController.updateProjectStatus(getProjectStatus()).getStatusCode(), HttpStatus.ACCEPTED);
     }
     @Test
-    public void deleteProjectStatusTest() throws NotFoundException {
+    public void deleteProjectStatusTest() throws DataNotFoundException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         Optional<ProjectStatus> existingProjectStatus =  Optional.of(getProjectStatus());
         Assert.assertEquals(projectStatusController.deleteProjectStatus(1L).getStatusCode(), HttpStatus.ACCEPTED);
     }
 
-
+    @Test
+    public void getProjectStatusTest() throws DataNotFoundException {
+        List<ProjectStatus> projectStatusList = new ArrayList<>();
+        projectStatusList.add(getProjectStatus());
+        when(projectStatusService.getProjectStatus()).thenReturn(projectStatusList);
+        Assert.assertEquals(projectStatusController.getProjectStatus().getStatusCode(),HttpStatus.OK);
+    }
+    @Test(expected = DataNotFoundException.class)
+    public void getBuDataNotFoundTest() throws DataNotFoundException {
+        projectStatusController.getProjectStatus();
+    }
     private ProjectStatus getProjectStatus(){
-        ProjectStatus projectStatus = new ProjectStatus("REDa");
+        ProjectStatus projectStatus = new ProjectStatus("RED");
         //projectStatus.setStatusId(1L);
        // projectStatus.setStatus("RED");
         return projectStatus;

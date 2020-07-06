@@ -1,5 +1,6 @@
 package com.capgemini.mbr.exception;
 
+import com.capgemini.mbr.constant.MbrConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,58 +20,30 @@ import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
- 	@Autowired
-	MessageSource messageSource;
-	/*@ExceptionHandler(ReportDataNotFoundException.class)
-	public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ReportDataNotFoundException execption) {
-		List<String> description = new ArrayList<>();
-		description.add(execption.getMessage());
-		logger.error("Error has occurred {} ",description);
-		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(), "Report data not Found", description);
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-	}*/
-	@ExceptionHandler(FoundException.class)
-	public ResponseEntity<ErrorDetails> handleFoundException(FoundException ex) {
-		List<String> description = new ArrayList<>();
-		description.add(ex.getMessage());
-		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(),
-				messageSource.getMessage(String.join(".",ex.getMessageKey(),"found"),null,LocaleContextHolder.getLocale()), description);
-		return new ResponseEntity<>(errorDetails, HttpStatus.FOUND);
-	}
-	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<ErrorDetails> handleNotFoundException(NotFoundException ex) {
-		List<String> description = new ArrayList<>();
-		description.add(ex.getMessage());
-		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(),
-				messageSource.getMessage(String.join(".",ex.getMessageKey(),"notfound"),null,LocaleContextHolder.getLocale()), description);
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-	}
-	/*@ExceptionHandler(ReportNotFoundException.class)
-	public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ReportNotFoundException execption) {
-		List<String> description = new ArrayList<>();
-		description.add(execption.getMessage());
-		logger.error("Error has occurred {} ",description);
-        ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(), "Report not  Exists", description);
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-   }
 
-	@ExceptionHandler(ReportFoundException.class)
-	public ResponseEntity<ErrorDetails> handleResourceFoundException(ReportFoundException execption) {
+	@ExceptionHandler(DataFoundException.class)
+	public ResponseEntity<ErrorDetails> handleFoundException(DataFoundException ex) {
 		List<String> description = new ArrayList<>();
-		description.add(execption.getMessage());
-		logger.error("Error has occurred {} ",description);
-		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(), "Report Exists", description);
+		description.add(ex.getMessage());
+		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(), MbrConstant.DATA_FOUND_EX, description);
 		return new ResponseEntity<>(errorDetails, HttpStatus.FOUND);
-	}*/
+	}
+
+	@ExceptionHandler(DataNotFoundException.class)
+	public ResponseEntity<ErrorDetails> handleNotFoundException(DataNotFoundException ex) {
+		List<String> description = new ArrayList<>();
+		description.add(ex.getMessage());
+		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(),MbrConstant.DATA_NOT_FOUND_EX, description);
+		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+	}
+
    @ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException execption) {
 		List<String> description = new ArrayList<>();
 		for(ObjectError  error : execption.getBindingResult().getAllErrors()) {
 			description.add(error.getDefaultMessage());
 		}
-			ErrorDetails error = new ErrorDetails(new Date().getTime(),
-					messageSource.getMessage("validation.error",null, LocaleContextHolder.getLocale()), description);
+			ErrorDetails error = new ErrorDetails(new Date().getTime(),MbrConstant.METHOD_ARG_NOT_VALID,description);
 		return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
 	}
 
@@ -78,14 +51,15 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorDetails> handleDataAccessException(DataAccessException ex) {
 		List<String> description = new ArrayList<>();
 		description.add(ex.getMessage());
-		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(),"DataAccessException", description);
+		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(),MbrConstant.DATA_ACCESS_EX, description);
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorDetails> handleAllException(Exception execption) {
 		List<String> description = new ArrayList<>();
 		description.add(execption.getMessage());
-		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(),"Server Error", description);
+		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(),MbrConstant.SERVER_ERROR, description);
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 

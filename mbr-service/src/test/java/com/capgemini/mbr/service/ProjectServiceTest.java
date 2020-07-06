@@ -1,5 +1,6 @@
 package com.capgemini.mbr.service;
 
+import com.capgemini.mbr.model.Bu;
 import com.capgemini.mbr.model.Project;
 import com.capgemini.mbr.repository.ProjectRepository;
 import org.junit.Test;
@@ -9,9 +10,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,5 +48,12 @@ public class ProjectServiceTest {
         project.setProjectId(3L);
         projectService.deleteProject(project.getProjectId());
         verify(projectRepository, times(1)).deleteById(eq(project.getProjectId()));
+    }
+
+    @Test
+    public void getProjectTest(){
+        List<Project> list = projectService.getproject();
+        assertTrue( list.size() ==0);
+        verify(projectRepository, times(1)).findAll();
     }
 }

@@ -12,11 +12,11 @@ import java.util.Optional;
 @Repository
 public interface ReportRepository  extends JpaRepository<Report, Long> {
 	
-	@Query("select r from Report r where month(r.createdDate) = ?1 and year(r.createdDate) = ?2")
-	List<Report> getReportsByCurrentMonthYear(int month,int year);
+	//@Query("select r from Report r where month(r.createdDate) = ?1 and year(r.createdDate) = ?2")
+	//List<Report> getReportsByCurrentMonthYear(int month,int year);
 	
-	@Query("select r from Report r where month(r.createdDate) = month(now()) and createdBy  = ?1")
-	Optional<Report> findReportOfCurrentMonthByuser(String userId);
+	 @Query("select r from Report r where month(r.createdDate) = month(now()) and createdBy  = ?1")
+	 Optional<Report> findReportOfCurrentMonthByuser(String userId);
 
 }
 

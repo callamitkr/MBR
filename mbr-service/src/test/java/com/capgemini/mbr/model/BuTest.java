@@ -3,6 +3,7 @@ package com.capgemini.mbr.model;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class BuTest {
 
@@ -17,6 +18,7 @@ public class BuTest {
         Bu bu = new Bu();
         bu.setBu("UK");
         assertEquals(bu.getBu(),"UK");
+        assertNotNull(bu.toString());
     }
     @Test
     public void buConstructorTest(){

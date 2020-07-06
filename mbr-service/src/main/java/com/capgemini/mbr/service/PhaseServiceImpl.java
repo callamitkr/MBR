@@ -5,6 +5,7 @@ import com.capgemini.mbr.repository.PhaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class PhaseServiceImpl implements PhaseService {
@@ -22,5 +23,10 @@ public class PhaseServiceImpl implements PhaseService {
     @Override
     public void deletePhase(Long phaseId) {
         phaseRepository.deleteById(phaseId);
+    }
+
+    @Override
+    public List<Phase> getPhase() {
+        return phaseRepository.findAll();
     }
 }

@@ -36,5 +36,12 @@ public class Bu {
 	public void setBu(String bu) {
 		this.bu = bu;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Bu{" +
+				"buId=" + buId +
+				", bu='" + bu + '\'' +
+				'}';
+	}
 }

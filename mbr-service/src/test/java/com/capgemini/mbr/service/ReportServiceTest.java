@@ -29,22 +29,6 @@ public class ReportServiceTest {
 
 	@Mock
 	ReportRepository repository;
-
-	@Test
-	public void getReportsByCurrentMonthYearTest() {
-		List<Report> reportList = new ArrayList<>();
-		int month = LocalDate.now().getMonthValue();
-		int year = LocalDate.now().getYear();
-		  Report report1 = new Report("report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
-		  Report report2 = new Report("report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
-		  Report report3 = new Report("report generation", "good", "no", "amit", LocalDate.now(), LocalDate.now());
-		  reportList.add(report1); reportList.add(report2); reportList.add(report3);
-		  when(repository.getReportsByCurrentMonthYear(month, year)).thenReturn(reportList);
-		  List<Report> rlist = reportService.getReportsByCurrentMonthYear(); assertEquals(3, rlist.size());
-		  verify(repository, times(1)).getReportsByCurrentMonthYear(month, year);
-
-	}
-
 	@Test
 	public void findReportOfCurrentMonthByCreatedByTest() {
 

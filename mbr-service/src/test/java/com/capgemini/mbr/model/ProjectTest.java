@@ -2,6 +2,8 @@ package com.capgemini.mbr.model;
 
 import org.junit.Test;
 import static  org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 public class ProjectTest {
 
     @Test
@@ -24,5 +26,6 @@ public class ProjectTest {
         assertEquals(project.getProjectDesc(),"Easy desc");
         assertEquals(project.getBu().getBu(),"US");
         assertEquals(project.getPhase().getPhase(),"Dev");
+        assertNotNull(project.toString());
     }
 }

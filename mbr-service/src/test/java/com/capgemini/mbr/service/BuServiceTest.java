@@ -12,9 +12,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,4 +52,13 @@ public class BuServiceTest {
         buService.deleteBu(bu.getBuId());
         verify(buRepository, times(1)).deleteById(eq(bu.getBuId()));
     }
+    @Test
+    public void getBuTest(){
+       List<Bu> list = buService.getBu();
+        assertTrue( list.size() ==0);
+        verify(buRepository, times(1)).findAll();
+    }
+
+
+
 }

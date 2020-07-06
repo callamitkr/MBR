@@ -25,3 +25,9 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+/target/
+/.classpath
+/.project
+/.project
+/.settings/

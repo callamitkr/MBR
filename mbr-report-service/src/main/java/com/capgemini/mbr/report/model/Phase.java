@@ -18,10 +18,7 @@ public class Phase {
 	@Column(name="phase")
 	private String phase;
 	public Phase() {}
-
-	
 	public Phase(String phase) {
-
 		this.phase = phase;
 	}
 	public Long getPhaseId() {
@@ -37,6 +34,11 @@ public class Phase {
 		this.phase = phase;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Phase{" +
+				"phaseId=" + phaseId +
+				", phase='" + phase + '\'' +
+				'}';
+	}
 }

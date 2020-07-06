@@ -2,8 +2,8 @@ package com.capgemini.mbr.controller;
 
 import com.capgemini.mbr.aspect.LoggingAspect;
 import com.capgemini.mbr.bean.Response;
-import com.capgemini.mbr.exception.FoundException;
-import com.capgemini.mbr.exception.NotFoundException;
+import com.capgemini.mbr.exception.DataFoundException;
+import com.capgemini.mbr.exception.DataNotFoundException;
 import com.capgemini.mbr.model.Report;
 import com.capgemini.mbr.service.ReportService;
 import org.junit.Assert;
@@ -49,7 +49,7 @@ public class ReportControllerTest {
 				.build();
 	}
 	@Test
-	public void createReportTest() throws FoundException {
+	public void createReportTest() throws DataFoundException {
 		Report report = getReport();
 		Report saveReport = new Report();
 		saveReport.setReportId(123L);
@@ -63,8 +63,8 @@ public class ReportControllerTest {
 		
 	}
 
-	@Test(expected = FoundException.class)
-	public void createReportWhenReportCreatedExistsbyUserTest() throws FoundException {
+	@Test(expected = DataFoundException.class)
+	public void createReportWhenReportCreatedExistsbyUserTest() throws DataFoundException {
 		Report reportToCreate = getReport();
 		Optional<Report> optionalReport = Optional.of(reportToCreate);
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -74,15 +74,15 @@ public class ReportControllerTest {
 	}
 
 	@Test
-	public void updateReportTest() throws FoundException, NotFoundException {
+	public void updateReportTest() throws DataFoundException, DataNotFoundException {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 		Optional<Report> existingReport = Optional.of(getReport());
 		when(reportService.findReportOfCurrentMonthByuser(getReport().getCreatedBy())).thenReturn(existingReport);
 		Assert.assertEquals(reportController.updateReport(getReport()).getStatusCode(), HttpStatus.ACCEPTED);
 	}
-	@Test(expected = NotFoundException.class)
-	public void updateReportReportNotFoundExceptionTest() throws FoundException, NotFoundException {
+	@Test(expected = DataNotFoundException.class)
+	public void updateReportReportNotFoundExceptionTest() throws DataFoundException, DataNotFoundException {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 		Optional<Report> existingReport = Optional.empty();
@@ -91,7 +91,7 @@ public class ReportControllerTest {
 	}
 
 	@Test
-	public void getReportByUserIdTest() throws NotFoundException, FoundException{
+	public void getReportByUserIdTest() throws DataNotFoundException, DataFoundException {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 		Optional<Report> existingReport = Optional.of(getReport());

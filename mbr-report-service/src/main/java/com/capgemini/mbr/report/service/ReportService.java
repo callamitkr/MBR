@@ -7,7 +7,5 @@ import com.capgemini.mbr.report.model.Report;
 
 
 public interface ReportService {
-
 	List<Report>getReportsByCurrentMonthYear();
-   
 }

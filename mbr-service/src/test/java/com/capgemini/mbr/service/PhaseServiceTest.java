@@ -10,9 +10,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -47,5 +49,11 @@ public class PhaseServiceTest {
        phase.setPhase("Dev");
         phaseService.deletePhase(phase.getPhaseId());
         verify(phaseRepository, times(1)).deleteById(eq(phase.getPhaseId()));
+    }
+    @Test
+    public void getPhaseTest(){
+        List<Phase> list = phaseService.getPhase();
+        assertTrue( list.size() ==0);
+        verify(phaseRepository, times(1)).findAll();
     }
 }
