@@ -20,13 +20,9 @@ public class ReportSeviceImpl implements ReportService {
 
 	@Autowired
 	ReportRepository repository;
-	int month;
-	int year;
 	@Override
-	public List<Report> getReportsByCurrentMonthYear() {
-		month = LocalDate.now().getMonthValue();
-		year = LocalDate.now().getYear();
-		return repository.getReportsByCurrentMonthYear(month, year);
+	public List<Report> getReportsByMonthYear(int month,int year) {
+		return repository.getReportsBYMonthYear(month, year);
 	}
 
 }

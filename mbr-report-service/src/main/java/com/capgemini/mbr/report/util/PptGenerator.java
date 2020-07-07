@@ -117,7 +117,7 @@ public class PptGenerator {
 			slide1Title2.clearText();
 		    textRunTitle2 = slide1Title2.addNewTextParagraph().addNewTextRun();
 			textRunTitle2.setFontSize(reportNameFontSize);
-			textRunTitle2.setText(reportName+" - "+ dateUtil.getCurrentMontYear("MMM yyyy"));
+			textRunTitle2.setText(reportName+" - "+ dateUtil.getMontYearPattern(07,2020,"MMM yyyy"));
 			textRunTitle2.setFontFamily(reportNameFont);
 			textRunTitle2.setFontColor(Color.BLUE);
 

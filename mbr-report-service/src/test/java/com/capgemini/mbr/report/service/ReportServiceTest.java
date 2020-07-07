@@ -28,8 +28,8 @@ public class ReportServiceTest {
     public void getReportsByCurrentMonthYearTest(){
       int month = LocalDate.now().getMonthValue();
       int year = LocalDate.now().getYear();
-      when(reportRepository.getReportsByCurrentMonthYear(month,year)).thenReturn(getReportList());
-      List<Report> list = reportSevice.getReportsByCurrentMonthYear();
+      when(reportRepository.getReportsBYMonthYear(month,year)).thenReturn(getReportList());
+      List<Report> list = reportSevice.getReportsByMonthYear(month,year);
       assertEquals(true,list.size()>0);
 
   }

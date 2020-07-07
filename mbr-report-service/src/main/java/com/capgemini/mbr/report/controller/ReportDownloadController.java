@@ -2,6 +2,8 @@ package com.capgemini.mbr.report.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,6 +13,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.mbr.report.exception.DataNotFoundException;
@@ -38,15 +41,16 @@ public class ReportDownloadController {
 	private ByteArrayInputStream byteArrayInputStream;
 	private HttpHeaders headers;
 	
-	@GetMapping(value = "/download")
-	public ResponseEntity<InputStreamResource> downloadReport() throws DataNotFoundException,IOException  {
-		listOfReport    = reportService.getReportsByCurrentMonthYear();
+	@GetMapping(value = "/download/{month}/{year}")
+	public ResponseEntity<InputStreamResource> downloadReport(@PathVariable int month,@PathVariable int year) throws DataNotFoundException,IOException  {
+		LocalDate.of(year, month, 1);
+		listOfReport    = reportService.getReportsByMonthYear(month,year);
 	     if(listOfReport.size() == 0){
 	 	   throw new DataNotFoundException(messageSource.getMessage("report.notfound.error",null, Locale.getDefault()));
 	     }
 		
 		byteArrayInputStream  = pptGenerator.generatePpt(listOfReport);
-		monthYear = dateUtil.getCurrentMontYear("MMM-yyyy");
+		monthYear = dateUtil.getMontYearPattern(month,year,"MMM-yyyy");
 		reportName = messageSource.getMessage("report.name",null, Locale.getDefault());
 		headers = new HttpHeaders();
 		headers.add("Content-Disposition", "attachment; filename="+String.join(".",String.join("-",reportName,monthYear),"pptx"));

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
 <fullyQualifiedTypeName name="org.hibernate.annotations.GenerationTime"/>
 <fullyQualifiedTypeName name="javax.persistence.ManyToOne"/>
 <fullyQualifiedTypeName name="javax.persistence.JoinColumn"/>
 <fullyQualifiedTypeName name="javax.persistence.Column"/>
 <fullyQualifiedTypeName name="javax.persistence.GenerationType"/>
 <fullyQualifiedTypeName name="com.capgemini.mbr.model.ProjectStatus"/>
-<fullyQualifiedTypeName name="java.time.LocalDate"/>
 <fullyQualifiedTypeName name="com.netflix.loadbalancer.Server"/>
 <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server"/>
 <fullyQualifiedTypeName name="org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties.Web.Server"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter"/>
 <fullyQualifiedTypeName name="org.springframework.http.HttpMethod"/>
 <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso"/>
+<fullyQualifiedTypeName name="java.time.DateTimeException"/>
+<fullyQualifiedTypeName name="java.time.LocalDate"/>
 </qualifiedTypeNameHistroy>

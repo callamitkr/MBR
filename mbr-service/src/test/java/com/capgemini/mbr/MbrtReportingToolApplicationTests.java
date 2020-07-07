@@ -15,6 +15,6 @@ class MbrtReportingToolApplicationTests {
 	}
 	@Test
 	public void applicationMainTest() {
-		MbrToolApplication.main(new String[] {});
+		MbrServiceApplication.main(new String[] {});
 	}
 }

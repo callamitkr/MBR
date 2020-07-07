@@ -17,6 +17,6 @@ public class DateUtilTest {
     @Test
     public void getCurrentMontYearTest(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy");
-        assertThat(dateUtil.getCurrentMontYear("MMM yyyy")).isEqualTo(formatter.format(LocalDate.now()).toString()) ;
+        assertThat(dateUtil.getMontYearPattern(07,2020,"MMM yyyy")).isEqualTo(formatter.format(LocalDate.of(2020,07,01)).toString()) ;
     }
 }

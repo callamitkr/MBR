@@ -58,18 +58,21 @@ public class ReportDownloadControlletTest {
 	public void downloadReportTest() throws DataNotFoundException, IOException {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-		String monthYear = "JUN-2020";
-		when(reportService.getReportsByCurrentMonthYear()).thenReturn(getReportList());
-		when(dateUtil.getCurrentMontYear("MMM-yyyy")).thenReturn(monthYear);
+		int  month = 07;
+		int year = 2020;
+		when(reportService.getReportsByMonthYear(07,2020)).thenReturn(getReportList());
+		when(dateUtil.getMontYearPattern(07,2020,"MMM-yyyy")).thenReturn("Jul-2020");
 		when(pptGenerator.generatePpt(any())).thenReturn(byteArrayInputStream);
-		assertThat(reportController.downloadReport().getStatusCodeValue()).isEqualTo(200);
+		assertThat(reportController.downloadReport(month,year).getStatusCodeValue()).isEqualTo(200);
 	}
 	@Test(expected = DataNotFoundException.class)
 	public void reportDataNotFoundDownloadReportTest() throws DataNotFoundException, IOException {
+		int  month = 07;
+		int year = 2020;
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-		when(reportService.getReportsByCurrentMonthYear()).thenReturn(new ArrayList<>());
-		reportController.downloadReport();
+		when(reportService.getReportsByMonthYear(month,year)).thenReturn(new ArrayList<>());
+		reportController.downloadReport(month,year);
 	}
 
 	private List<Report> getReportList(){

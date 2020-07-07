@@ -23,7 +23,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableDiscoveryClient
-public class MbrToolApplication implements CommandLineRunner  {
+public class MbrServiceApplication implements CommandLineRunner  {
 	@Autowired
 	ReportRepository reportRepository;
 	@Autowired
@@ -36,7 +36,7 @@ public class MbrToolApplication implements CommandLineRunner  {
 	ProjectStatusRepository projectStatusRepository;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(MbrToolApplication.class, args);
+		SpringApplication.run(MbrServiceApplication.class, args);
 	}
 
 

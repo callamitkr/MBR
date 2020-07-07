@@ -24,12 +24,13 @@ public class GlobalExceptionHandler {
 		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(), ReportConstant.DATA_NOT_FOUND_EX, description);
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 	}
+
 	
-	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Throwable.class)
 	public ResponseEntity<ErrorDetails> handleAllException(Exception execption) {
 		List<String> description = new ArrayList<>();
 		description.add(execption.getMessage());
-		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(), ReportConstant.SERVER_ERROR, description);
+		ErrorDetails errorDetails = new ErrorDetails(new Date().getTime(), execption.getClass().getSimpleName(), description);
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
